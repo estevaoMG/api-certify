@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "api-certify"
+version = "0.1.0"
+description = "API de exemplo para gerenciar voluntários - Desafio Técnico"
+authors = ["estevaoMG <estevao.gouveia@hotmail.com>"]
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.95.0"
+"uvicorn[standard]" = "^0.22.0"
+click = "^8.1.7"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.4.0"
+httpx = "^0.24.0"
+flake8 = "^6.1.0"
+black = "^24.3.0"
+
+[tool.poetry.scripts]
+task = "tasks:cli"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
