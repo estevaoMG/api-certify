@@ -38,9 +38,9 @@ Projeto de exemplo para o **Desafio Técnico - Sistema de Gerenciamento de Volun
 
 - `POST   /voluntarios` - Cadastrar novo voluntário
 - `GET    /voluntarios` - Listar voluntários (com filtros)
-- `GET    /voluntarios/{uuid}` - Buscar voluntário específico
-- `PUT    /voluntarios/{uuid}` - Atualizar voluntário
-- `DELETE /voluntarios/{uuid}` - Excluir voluntário (soft delete)
+- `GET    /voluntarios/{vol_id}` - Buscar voluntário específico
+- `PUT    /voluntarios/{vol_id}` - Atualizar voluntário
+- `DELETE /voluntarios/{vol_id}` - Excluir voluntário (soft delete)
 
 ## Decisões técnicas
 
