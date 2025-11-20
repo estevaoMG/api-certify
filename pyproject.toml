@@ -8,18 +8,22 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "^0.95.0"
-"uvicorn[standard]" = "^0.22.0"
+fastapi = "^0.104"
+uvicorn = { version = "^0.22.0", extras = ["standard"] }
 click = "^8.1.7"
+pydantic = {version = "^2.12.4", extras = ["email"]}
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
 httpx = "^0.24.0"
 flake8 = "^6.1.0"
 black = "^24.3.0"
 
+[[tool.poetry.packages]]
+include = "app"
+
 [tool.poetry.scripts]
-task = "tasks:cli"
+task = "tasks.cli:cli"
 
 [build-system]
 requires = ["poetry-core"]
