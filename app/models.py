@@ -3,15 +3,7 @@ from enum import Enum
 from typing import Optional
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
-
-
-class Disponibilidade(str, Enum):
-    MANHA = "manha"
-    TARDE = "tarde"
-    NOITE = "noite"
-    FIM_DE_SEMANA = "fim_de_semana"
-    INDEFINIDO = "indefinido"
+from pydantic import BaseModel, EmailStr, Field
 
 
 class Status(str, Enum):
@@ -19,12 +11,18 @@ class Status(str, Enum):
     INATIVO = "inativo"
 
 
+class Disponibilidade(str, Enum):
+    MANHA = "manha"
+    TARDE = "tarde"
+    NOITE = "noite"
+
+
 class VoluntarioBase(BaseModel):
-    nome: str = Field(..., min_length=2)
+    nome: str = Field(..., min_length=3, max_length=100)
     email: EmailStr
-    telefone: str = Field(..., min_length=6)
-    cargo_pretendido: str
-    disponibilidade: Disponibilidade = Disponibilidade.INDEFINIDO
+    telefone: str = Field(..., min_length=8, max_length=15)
+    cargo_pretendido: str = Field(..., min_length=2, max_length=50)
+    disponibilidade: Disponibilidade
 
 
 class VoluntarioCreate(VoluntarioBase):
@@ -32,19 +30,15 @@ class VoluntarioCreate(VoluntarioBase):
 
 
 class VoluntarioUpdate(BaseModel):
-    nome: Optional[str] = None
+    nome: Optional[str] = Field(None, min_length=3, max_length=100)
     email: Optional[EmailStr] = None
-    telefone: Optional[str] = None
-    cargo_pretendido: Optional[str] = None
+    telefone: Optional[str] = Field(None, min_length=8, max_length=15)
+    cargo_pretendido: Optional[str] = Field(None, min_length=2, max_length=50)
     disponibilidade: Optional[Disponibilidade] = None
-    status: Optional[Status] = None
 
 
 class VoluntarioOut(VoluntarioBase):
     id: UUID
-    status: Status
     inscricao_em: datetime
+    status: Status
     deleted_at: Optional[datetime] = None
-
-    # Configuração correta para Pydantic v2
-    model_config = ConfigDict(from_attributes=True)
