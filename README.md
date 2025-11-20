@@ -31,13 +31,16 @@ Projeto de exemplo para o **Desafio Técnico - Sistema de Gerenciamento de Volun
    poetry run task test
    ```
 
+- Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)  
+- ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+
 ## Endpoints
 
 - `POST   /voluntarios` - Cadastrar novo voluntário
 - `GET    /voluntarios` - Listar voluntários (com filtros)
-- `GET    /voluntarios/<built-in function id>` - Buscar voluntário específico
-- `PUT    /voluntarios/<built-in function id>` - Atualizar voluntário
-- `DELETE /voluntarios/<built-in function id>` - Excluir voluntário (soft delete)
+- `GET    /voluntarios/{uuid}` - Buscar voluntário específico
+- `PUT    /voluntarios/{uuid}` - Atualizar voluntário
+- `DELETE /voluntarios/{uuid}` - Excluir voluntário (soft delete)
 
 ## Decisões técnicas
 
