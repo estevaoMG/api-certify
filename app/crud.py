@@ -7,12 +7,16 @@ from app.models import Status, VoluntarioCreate, VoluntarioOut, VoluntarioUpdate
 
 
 def create_voluntario(payload: VoluntarioCreate) -> VoluntarioOut:
-    """Cria um voluntário novo. Verifica email único."""
-    existing = find_by_email(payload.email)
+    """Cria um voluntário novo. Verifica email único e normaliza o email."""
+    # Normalizar email: remove espaços e converte para minúsculas
+    email = payload.email.strip().lower()
+
+    existing = find_by_email(email)
     if existing and existing.get("status") == Status.ATIVO:
         raise ValueError("Email already exists")
 
     record = payload.model_dump()
+    record["email"] = email
     record["id"] = uuid4()
     record["inscricao_em"] = datetime.now(timezone.utc)
     record["status"] = Status.ATIVO
