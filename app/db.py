@@ -13,8 +13,7 @@ def _normalize_email(email: str) -> str:
 
 
 def reset_db():
-    global _DB
-    _DB = []
+    _DB.clear()
 
 
 def list_all():
