@@ -20,12 +20,7 @@ def create_voluntario(payload: VoluntarioCreate):
     try:
         return crud.create_voluntario(payload)
     except ValueError as e:
-        # Email duplicado
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-    except Exception:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Dados inválidos"
-        )
 
 
 @router.get("/", response_model=List[VoluntarioOut])
