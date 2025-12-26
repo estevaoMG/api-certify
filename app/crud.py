@@ -48,9 +48,9 @@ def list_voluntarios(
 
 
 def get_voluntario(vol_id: UUID) -> Optional[VoluntarioOut]:
-    """Retorna um voluntário pelo ID, ou None se não existir."""
+    """Retorna um voluntário ativo pelo ID, ou None se não existir ou estiver inativo."""
     v = find_by_id(vol_id)
-    if not v:
+    if not v or v.get("status") != Status.ATIVO:
         return None
     return VoluntarioOut(**v)
 
