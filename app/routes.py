@@ -18,8 +18,7 @@ router = APIRouter()
 @router.post("/", response_model=VoluntarioOut, status_code=status.HTTP_201_CREATED)
 def create_voluntario(payload: VoluntarioCreate):
     try:
-        v = crud.create_voluntario(payload)  # retorna VoluntarioOut
-        return v  # aqui deve ser um objeto VoluntarioOut, que tem o id
+        return crud.create_voluntario(payload)  # ⚠ precisa retornar Pydantic model
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
 
@@ -47,7 +46,12 @@ def get_voluntario(vol_id: UUID):
 
 @router.put("/{vol_id}", response_model=VoluntarioOut)
 def put_voluntario(vol_id: UUID, payload: VoluntarioUpdate):
-    v = crud.update_voluntario(vol_id, payload)
+    try:
+        v = crud.update_voluntario(vol_id, payload)
+    except ValueError as e:
+        if str(e) == "Email already exists":
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
+        raise  # outros ValueErrors continuam sendo levantados
 
     if not v:
         raise HTTPException(

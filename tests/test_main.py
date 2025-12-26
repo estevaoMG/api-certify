@@ -119,31 +119,42 @@ def test_atualizar_voluntario():
 
 
 def test_update_nao_permite_email_existente():
-    v1 = client.post(
+    # Cria o primeiro voluntário (v1)
+    r1 = client.post(
         "/voluntarios/",
         json={
-            "nome": "A",
+            "nome": "Ana",
             "email": "a@exemplo.com",
-            "telefone": "+5511991111111",
+            "telefone": "+5521999991111",
             "cargo_pretendido": "Apoio",
             "disponibilidade": "manha",
         },
-    ).json()
+    )
+    assert r1.status_code == 201, f"Falha ao criar v1: {r1.json()}"
+    v1 = r1.json()
 
-    v2 = client.post(
+    # Cria o segundo voluntário (v2)
+    r2 = client.post(
         "/voluntarios/",
         json={
-            "nome": "B",
+            "nome": "Bob",
             "email": "b@exemplo.com",
-            "telefone": "+5511992222222",
+            "telefone": "+5521999992222",
             "cargo_pretendido": "Apoio",
             "disponibilidade": "manha",
         },
-    ).json()
+    )
+    assert r2.status_code == 201, f"Falha ao criar v2: {r2.json()}"
+    v2 = r2.json()
 
-    r = client.put(f"/voluntarios/{v2['id']}", json={"email": "A@EXEMPLO.COM"})
+    # Tenta atualizar o email de v2 para o email de v1 (diferente case)
+    r_update = client.put(
+        f"/voluntarios/{v2['id']}",
+        json={"email": "A@EXEMPLO.COM"},  # maiúsculo para testar normalização
+    )
 
-    assert r.status_code == 409
+    # Deve retornar 409 Conflict
+    assert r_update.status_code == 409, f"Update inesperado: {r_update.json()}"
 
 
 # =========================
