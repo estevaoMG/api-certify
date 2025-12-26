@@ -21,7 +21,9 @@ class VoluntarioBase(BaseModel):
     nome: str = Field(..., min_length=3, max_length=100)
     email: EmailStr
     telefone: str = Field(
-        ..., regex=r"^\+55\d{10,11}$", description="Telefone no formato +55DDDXXXXXXXX"
+        ...,
+        pattern=r"^\+55\d{10,11}$",
+        description="Telefone no formato +55DDDXXXXXXXX",
     )
 
     cargo_pretendido: str = Field(..., min_length=2, max_length=50)
@@ -36,7 +38,9 @@ class VoluntarioUpdate(BaseModel):
     nome: Optional[str] = Field(None, min_length=3, max_length=100)
     email: Optional[EmailStr] = None
     telefone: Optional[str] = Field(
-        None, regex=r"^\+55\d{10,11}$", description="Telefone no formato +55DDDXXXXXXXX"
+        None,
+        pattern=r"^\+55\d{10,11}$",
+        description="Telefone no formato +55DDDXXXXXXXX",
     )
 
     cargo_pretendido: Optional[str] = Field(None, min_length=2, max_length=50)
