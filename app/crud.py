@@ -58,14 +58,16 @@ def get_voluntario(vol_id: UUID) -> Optional[VoluntarioOut]:
 def update_voluntario(
     vol_id: UUID, payload: VoluntarioUpdate
 ) -> Optional[VoluntarioOut]:
-    """Atualiza um voluntário ativo. Verifica unicidade de email."""
+    """Atualiza um voluntário ativo. Verifica unicidade de email e normaliza."""
     v = find_by_id(vol_id)
     if not v or v.get("status") != Status.ATIVO:
         return None
 
     data = payload.model_dump(exclude_unset=True)
 
-    if "email" in data:
+    # Normaliza email se estiver presente
+    if "email" in data and data["email"]:
+        data["email"] = data["email"].strip().lower()
         existing = find_by_email(data["email"])
         if (
             existing
