@@ -8,6 +8,10 @@ from app.models import Status
 _DB: List[Dict] = []
 
 
+def _normalize_email(email: str) -> str:
+    return email.strip().lower()
+
+
 def reset_db():
     global _DB
     _DB = []
@@ -25,13 +29,16 @@ def find_by_id(vol_id):
 
 
 def find_by_email(email: str):
+    email = _normalize_email(email)
     for item in _DB:
-        if item["email"].lower() == email.lower():
+        if item["email"] == email:
             return item
     return None
 
 
 def insert(data: Dict):
+    if "email" in data and data["email"]:
+        data["email"] = _normalize_email(data["email"])
     _DB.append(data)
     return data
 
