@@ -35,7 +35,10 @@ class VoluntarioCreate(VoluntarioBase):
 class VoluntarioUpdate(BaseModel):
     nome: Optional[str] = Field(None, min_length=3, max_length=100)
     email: Optional[EmailStr] = None
-    telefone: Optional[str] = Field(None, min_length=8, max_length=15)
+    telefone: Optional[str] = Field(
+        None, regex=r"^\+55\d{10,11}$", description="Telefone no formato +55DDDXXXXXXXX"
+    )
+
     cargo_pretendido: Optional[str] = Field(None, min_length=2, max_length=50)
     disponibilidade: Optional[Disponibilidade] = None
 
