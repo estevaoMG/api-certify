@@ -47,5 +47,14 @@ def update(vol_id, data: Dict):
     v = find_by_id(vol_id)
     if not v:
         return None
+
+    if "email" in data and data["email"]:
+        normalized_email = _normalize_email(data["email"])
+        existing = find_by_email(normalized_email)
+        if existing and existing["id"] != v["id"]:
+            raise ValueError("Email já cadastrado")
+
+        data["email"] = normalized_email
+
     v.update(data)
     return v
