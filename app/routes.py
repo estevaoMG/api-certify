@@ -46,20 +46,15 @@ def get_voluntario(vol_id: UUID):
 
 @router.put("/{vol_id}", response_model=VoluntarioOut)
 def put_voluntario(vol_id: UUID, payload: VoluntarioUpdate):
-    try:
-        v = crud.update_voluntario(vol_id, payload)
-        if not v:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Voluntário não encontrado",
-            )
-        return v
-    except ValueError as e:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-    except Exception:
+    v = crud.update_voluntario(vol_id, payload)
+
+    if not v:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Dados inválidos"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Voluntário não encontrado",
         )
+
+    return v
 
 
 @router.delete("/{vol_id}", response_model=VoluntarioOut)
