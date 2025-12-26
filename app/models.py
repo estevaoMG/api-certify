@@ -20,7 +20,10 @@ class Disponibilidade(str, Enum):
 class VoluntarioBase(BaseModel):
     nome: str = Field(..., min_length=3, max_length=100)
     email: EmailStr
-    telefone: str = Field(..., min_length=8, max_length=15)
+    telefone: str = Field(
+        ..., regex=r"^\+55\d{10,11}$", description="Telefone no formato +55DDDXXXXXXXX"
+    )
+
     cargo_pretendido: str = Field(..., min_length=2, max_length=50)
     disponibilidade: Disponibilidade
 
