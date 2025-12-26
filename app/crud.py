@@ -28,7 +28,9 @@ def list_voluntarios(
     disponibilidade: Optional[str] = None,
 ) -> List[VoluntarioOut]:
     """Lista voluntários com filtros opcionais."""
-    items = list_all()
+    # FILTRAR SOMENTE ATIVOS por padrão
+    items = [it for it in list_all() if it.get("status") == Status.ATIVO]
+
     results = []
     for it in items:
         if status and it.get("status") != status:
