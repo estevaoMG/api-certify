@@ -36,8 +36,18 @@ def find_by_email(email: str):
 
 
 def insert(data: Dict):
+    # Normaliza email
     if "email" in data and data["email"]:
         data["email"] = _normalize_email(data["email"])
+
+    # Garante ID único se não existir
+    if "id" not in data:
+        data["id"] = uuid4()
+
+    # Garante status ativo se não existir
+    if "status" not in data:
+        data["status"] = Status.ATIVO
+
     _DB.append(data)
     return data
 
