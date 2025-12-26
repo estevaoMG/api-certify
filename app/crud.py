@@ -7,10 +7,7 @@ from app.models import Status, VoluntarioCreate, VoluntarioOut, VoluntarioUpdate
 
 
 def create_voluntario(payload: VoluntarioCreate) -> VoluntarioOut:
-    """Cria um voluntário novo. Verifica email único e normaliza o email."""
-    # Normalizar email: remove espaços e converte para minúsculas
     email = payload.email.strip().lower()
-
     existing = find_by_email(email)
     if existing and existing.get("status") == Status.ATIVO:
         raise ValueError("Email already exists")
@@ -23,7 +20,7 @@ def create_voluntario(payload: VoluntarioCreate) -> VoluntarioOut:
     record["deleted_at"] = None
 
     inserted = insert(record)
-    return VoluntarioOut(**inserted)
+    return VoluntarioOut(**inserted)  # <-- garante que o id está presente
 
 
 def list_voluntarios(

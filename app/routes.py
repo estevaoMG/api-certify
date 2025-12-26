@@ -18,7 +18,8 @@ router = APIRouter()
 @router.post("/", response_model=VoluntarioOut, status_code=status.HTTP_201_CREATED)
 def create_voluntario(payload: VoluntarioCreate):
     try:
-        return crud.create_voluntario(payload)
+        v = crud.create_voluntario(payload)  # retorna VoluntarioOut
+        return v  # aqui deve ser um objeto VoluntarioOut, que tem o id
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
 
