@@ -58,3 +58,13 @@ def update(vol_id, data: Dict):
 
     v.update(data)
     return v
+
+
+def soft_delete(vol_id):
+    v = find_by_id(vol_id)
+    if not v:
+        return None
+
+    v["status"] = Status.INATIVO
+    v["deleted_at"] = datetime.utcnow()
+    return v
